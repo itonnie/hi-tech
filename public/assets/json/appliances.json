@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Dishwasher",
+        "color": "#14D414"
+    },
+    {
+        "name": "Drier",
+        "color": "#42EEE0"
+    },
+    {
+        "name": "Washing Machine",
+        "color": "#F6FA1A"
+    },
+    {
+        "name": "Oven",
+        "color": "#AA43EE"
+    },
+    {
+        "name": "Coolers",
+        "color": "#AA43EE"
+    },
+    {
+        "name": "Others",
+        "color": "#14D414"
+    }
+]
