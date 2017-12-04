@@ -24772,6 +24772,10 @@ page-home #mycarousel {
 
 page-home .jp {
   padding: 3em 2em;
+  color: white;
+  text-shadow: black 0.3em 0.3em 0.3em;
+  margin-bottom: 0px;
+  height: 350px;
 }
 
 page-home #submenu {
@@ -24852,4 +24856,25 @@ page-home .longer {
 
 page-home .text-center {
   text-align: center;
+}
+
+page-home #jum1 {
+  background-image: url("../assets/images/jumbotron1.jpg") !important;
+  background-position: 0% 25%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+page-home #jum2 {
+  background-image: url("../assets/images/jumbotron2.jpg") !important;
+  background-position: 0% 25%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+page-home #jum3 {
+  background-image: url("../assets/images/jumbotron3.jpg") !important;
+  background-position: 0% 25%;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
