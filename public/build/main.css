@@ -24743,6 +24743,16 @@ ion-navbar.toolbar {
   bottom: 70px;
 }
 
+.scheduler .popover-content {
+  width: 500px;
+  height: 500px;
+  overflow-y: auto;
+}
+
+.scroll-content {
+  overflow-y: unset;
+}
+
 page-chatpopover .popover-content {
   left: unset !important;
 }

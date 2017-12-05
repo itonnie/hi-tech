@@ -1,0 +1,40 @@
+[
+    {
+        "name": "Plumbing",
+        "description": "Plumbing solutions for every home",
+        "repairs": [
+            "Pipe Supply",
+            "Pipe Heating",
+            "Declogging",
+            "Drainage",
+            "Equipment and Fitting"
+        ]
+    },
+    {
+        "name": "Painting",
+        "description": "Get expert painting services for both outdoor and indoor walls for your home.",
+        "repairs": [
+            "Outdoor Painting",
+            "Indoor Painting"
+        ]
+    },
+    {
+        "name": "Masonry",
+        "description": "Best Masonry services in town, select one of our services below to book an apointment.",
+        "repairs": [
+            "Tilling",
+            "Bricks",
+            "Plastering"
+        ]
+    },
+    {
+        "name": "Carpentry",
+        "description": "Broken chair or table? No worries, our team will patch you up, just schedule an appointment with us today.",
+        "repairs": [
+            "IKEA",
+            "Furnitures",
+            "Fitting",
+            "Home Structures"
+        ]
+    }
+]
