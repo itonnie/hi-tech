@@ -1,0 +1,24 @@
+.cardwrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
+    grid-auto-rows: auto;
+}
+
+.card-block {
+    padding: 1em 2em;
+}
+
+.jumbotron {
+    border-radius: 0;
+}
+
+@media screen and (max-width: 480px) {
+    .cardwrapper {
+        display: block;
+    }
+
+    .card {
+        margin: 5px;
+    }
+}
