@@ -1,4 +1,19 @@
 extends layout
 
 block content
-    h1 Admin Page
+    nav.navbar.navbar-light.bg-light
+        a.navbar-brand(href="#") Hi Tech Dashboard
+
+    .container
+        .list-group
+            a.list-group-item.list-group-item-action.flex-column.align-items-start(href="#", ng-repeat="x in appointments")
+                .d-flex.w-100.justify-content-between
+                    h3 {{x.fullname}}
+                    small Quoted: {{x.quoted}}
+                p Category: {{x.category}} - Subcategory: {{x.sub}} - Service Name: {{x.name}}
+                p Visit: {{x.from}} - Deadline: {{x.to}}
+                p County: {{x.county}} - Town: {{x.town}}
+                small 0{{x.phone}}
+                br
+                button.btn.btn-success(href="tel:0{{x.phone}}") Call User
+                button.btn.btn-default(ng-click="markQuoted(x._id)") Mark as Quoted

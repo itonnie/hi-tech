@@ -20,4 +20,22 @@ router.get('/schedules', (req, res, next) => {
     });
 });
 
+router.get('/quoted/:id', (req, res, next) => {
+    var id = req.params.id;
+    Appointment.findOneAndUpdate({ _id: id }, { $set: { quoted: true }}, { new: true }, (err, doc) => {
+        if(err) throw err;
+        else {
+            Appointment.find((err, response) => {
+                if(err) throw err;
+                else {
+                    res.json({
+                        ok: true,
+                        result: response
+                    })
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;

@@ -44,6 +44,6 @@ router.post('/addschedule', (req, res, next) => {
     }
   })
   
-})
+});
 
 module.exports = router;
