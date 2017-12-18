@@ -316,7 +316,7 @@ var AppdataService = (function () {
         return this.http.get('assets/json/counties.json').map(function (res) { return res.json(); });
     };
     AppdataService.prototype.makeAppointment = function (from, to, county, fullname, town, street, phone, category, sub, name) {
-        return this.http.post('http://localhost:3000/addschedule', {
+        return this.http.post('/addschedule', {
             from: from,
             to: to,
             county: county,
