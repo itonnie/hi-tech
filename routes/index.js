@@ -3,7 +3,7 @@ var Appointment = require('../models/appointment');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req,  res, next) {
   res.sendFile("index.html");
 });
 
@@ -18,7 +18,7 @@ router.post('/addschedule', (req, res, next) => {
   var category = req.body.category;
   var sub = req.body.sub;
   var name = req.body.name;
-  var quoted = false;
+  var email = req.body.email;
 
   var Apoint = new Appointment({
     from: from,
@@ -31,7 +31,14 @@ router.post('/addschedule', (req, res, next) => {
     category: category,
     sub: sub,
     name: name,
-    quoted: quoted
+    quoted: false,
+    pending: true,
+    approved: false,
+    completed: false,
+    price: "",
+    paid: false,
+    cancelled: false,
+    email: email
   });
 
   Apoint.save((err, result) => {

@@ -1,18 +1,91 @@
 body {
   padding: 0;
   margin: 0;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: grid;
+  grid-template-rows: 30% 70%;
+  height: 100%;
 }
 
 a {
   color: #00B7FF;
 }
 
-.container {
+.space {
+  flex: 1 1 auto;
+}
+
+.flexing {
+  display: none;
+  /*display: flex;*/
+}
+
+.card {
+  padding: 2em 1.5em;
+}
+
+.active-panel {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 10px;
+}
+
+.flexbox {
+  display: flex;
+}
+
+.sharp {
+  border-radius: 0;
+}
+
+.left {
+  flex: 2;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 1.5em 2em;
+  height: 520px;
+}
+
+.right {
+  flex: 1;
   padding: 1em 2em;
 }
 
-.btn {
-  margin: 5px 10px 5px 0;
-  border-radius: 0;
+.add {
+  width: 100px;
+}
+
+.padding {
+  padding: 1.5em 2em;
+}
+
+.navtabs {
+  display: flex;
+}
+
+.navtabs > span {
+  flex: 1;
+  width: 50%;
+  padding: 1em 2em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.activetab {
+  border-bottom: 3px solid #333;
+}
+
+.navpanel {
+  display: none;
+}
+
+.activepanel {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.thin {
+  width: 300px;
 }

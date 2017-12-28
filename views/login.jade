@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    section.hero.is-primary.is-bold
+        .hero-body
+            .container
+                h1.title.is-2 Hitech Innovation Dashboard
+                h4.subtitle developed by Onejohi
+
+    .container
+        .jumbotron.sharp
+            nav.navtabs
+                span.navtab.activetab(data-val="login") Login
+                span.navtab(data-val="signup") Sign Up
+
+            .panels
+                #login.navpanel.activepanel(ng-controller="login")
+                    .card(style="margin-top: 30px;")
+                        .card-body.thin
+                            h3.text-muted.text-center Please login with your email and password
+                            form
+                                
+                                input.form-control#mail(placeholder="email", type="email", name="email", ng-model="email", required)
+                                br
+                                
+                                input.form-control#pass(placeholder="password", type="password", name="password", ng-model="password", required)
+                                br
+
+                                input.btn.btn-success.btn-block(type="submit", value="Log In", ng-click="submitForm(email, password)")
+                #signup.navpanel(ng-controller="signup")
+                    .card
+                        .card-body.thin
+                            h3.text-muted.text-center Create a new account
+                            form
+                                
+                                input.form-control#susername(placeholder="username", type="text", name="susername", ng-model="susername", required)
+                                br
+
+                                input.form-control#smail(placeholder="email", type="email", name="semail", ng-model="semail", required)
+                                br
+                                
+                                input.form-control#spass(placeholder="password", type="password", name="spassword", ng-model="spassword", required)
+                                br
+
+                                input.btn.btn-success.btn-block(type="submit", value="Sign In", ng-click="createAccount(susername, semail, spassword)")

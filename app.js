@@ -6,8 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var mongoose = require("mongoose");
+var session = require("express-session");
 
-mongoose.connect('mongodb://tonnie:123456@ds141786.mlab.com:41786/hitech')
+mongoose.connect('mongodb://tonnie:123456@ds141786.mlab.com:41786/hitech');
+//mongoose.connect('mongodb://127.0.0.1:27017/hi-tech');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -27,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
+app.use(session({ secret: 'secretkey' }));
 
 app.use('/', index);
 app.use('/users', users);

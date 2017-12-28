@@ -11,7 +11,23 @@ var appSchema = mongoose.Schema({
     category: String,
     sub: String,
     name: String,
-    quoted: Boolean
+    cancelled: Boolean,
+    pending: Boolean,
+    quoted: Boolean,
+    //quoted: {
+    //  ok: Boolean,
+    //  created: Date,
+    //  price: Number
+    //}
+    approved: Boolean,
+    //approved: {
+    //  ok: Boolean,
+    //  created: Date,
+    //}
+    completed: Boolean,
+    price: Number,
+    paid: Boolean,
+    email: String
 }, { collection: 'appointments'});
 
 var Appointment = mongoose.model('Appointment', appSchema);

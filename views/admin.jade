@@ -1,19 +1,115 @@
 extends layout
 
 block content
-    nav.navbar.navbar-light.bg-light
-        a.navbar-brand(href="#") Hi Tech Dashboard
+    section.hero.is-primary.is-bold
+        .hero-body
+            .container
+                h1.title HiTech Innovation Dashboard
+                h2.subtitle {{username}}
+
 
     .container
-        .list-group
-            a.list-group-item.list-group-item-action.flex-column.align-items-start(href="#", ng-repeat="x in appointments")
-                .d-flex.w-100.justify-content-between
-                    h3 {{x.fullname}}
-                    small Quoted: {{x.quoted}}
-                p Category: {{x.category}} - Subcategory: {{x.sub}} - Service Name: {{x.name}}
-                p Visit: {{x.from}} - Deadline: {{x.to}}
-                p County: {{x.county}} - Town: {{x.town}}
-                small 0{{x.phone}}
+        .flexbox
+            .right
+                .panel
+                    p.panel-heading Orders
+                    .panel-block(ng-controller="search", data-id="search")
+                        p.control.has-icons-left
+                            input.input.is-small(type="text", placeholder="search", ng-model="search", ng-keyup="searchParam($event, search)")
+                            span.icon.is-small.is-left
+                                i.fa.fa-search
+
+                    a.panel-block.is-active(href="#", data-id="pending") Pending Orders
+                        .space
+                        span.badge.badge-info {{pendingLength}}
+                    a.panel-block(href="#", data-id="quoted") Quoted Orders
+                        .space
+                        span.badge.badge-warning {{quotedLength}}
+                    a.panel-block(href="#", data-id="approved") Approved Orders
+                        .space
+                        span.badge.badge-success {{approvedLength}}
+                    a.panel-block(href="#", data-id="completed") Completed Orders
+                        .space
+                        span.badge.badge-default {{completedLength}}
+                
                 br
-                button.btn.btn-success(href="tel:0{{x.phone}}") Call User
-                button.btn.btn-default(ng-click="markQuoted(x._id)") Mark as Quoted
+                .list-group
+                    a.list-group-item Settings
+                    a.list-group-item.list-group-item-action(href="/admin/logout") Log Out
+            .left
+                .flexing#search(ng-controller="search")
+                    h3.text-muted(ng-show="!searchLength") No results found...
+                    .card(ng-repeat="s in searchValues")
+                        .card-block 
+                            h4.card-title {{s.fullname}}
+                            time.text-muted.text-success {{s.from}}
+                            br
+                            time.text-muted.text-danger {{s.to}}
+
+                            h5.card-subtitle {{s.county}}
+                            h5.card-subtitle {{s.town}}
+                            h5.card-subtitle {{s.street}}
+
+                            p.text-warning(ng-show="s.quoted") Quoted
+                            p.text-info(ng-show="s.pending") Pending
+                            p.text-success(ng-show="s.approved") Approved
+                            p.text-success(ng-show="s.completed") Completed
+                            p.text-success(ng-show="s.cancelled") Cancelled
+
+                .flexing.active-panel#pending(ng-controller="pending")
+                
+                    .card(ng-repeat="x in appointments")
+                        .card-block
+                            h4.card-title {{x.fullname}}
+                            h6.card-subtitle.mb-2.text-muted +254{{x.phone}}
+                            h6.card-subtitle.mb-2.text-muted {{x.category}} &gt; {{x.sub}} &gt; {{x.name}}
+
+                            p.card-text 
+                                | Service quotation to be taken between
+                                strong {{x.from}}
+                                | to
+                                strong {{x.to}}
+                                | in {{x.county}}, {{x.town}} and street address {{x.street}}
+                            
+                            .row
+                                .col-sm-3
+                                    button.card-link.btn.btn-sm Cancel
+                                .col-sm-9
+                                    .input-group.input-group-sm
+                                        span.input-group-addon KES
+                                        input#quotation.form-control(type="number", name="quotation", ng-model="quotation")
+                                        span.input-group-btn
+                                            button.btn.btn-success(type="button", ng-click="quote(x._id, quotation)") Quote
+                
+                .flexing#quoted(ng-controller="quoted")
+                    .card(ng-repeat="q in quoted")
+                        .card-block
+                            h4.card-title {{q.fullname}}
+                            h6.card-subtitle.mb-2.text-muted +254{{q.phone}}
+                            h6.card-subtitle.mb-2.text-muted {{q.category}} &gt; {{q.sub}} &gt; {{q.name}}
+
+                            p.card-text Price: KES {{q.price}}
+                            div(approved)
+
+                            button.card-link.btn.btn-sm.btn-success(ng-click="approve(q._id)", ng-disabled="q.approved") Approve Job
+                            p.text-muted Approve a job when experts start working on it
+
+                .flexing#approved(ng-controller="approved")
+                    .card(ng-repeat="a in approved")
+                        .card-block
+                            h4.card-title {{a.fullname}}
+                            h6.card-subtitle.mb-2.text-muted +254{{a.phone}}
+                            h6.card-subtitle.mb-2.text-muted {{a.category}} &gt; {{a.sub}} &gt; {{a.name}}
+
+                            p.card-text Price: KES {{a.price}}
+
+                            button.card-link.btn.btn-sm.btn-success(ng-click="paidncompleted(a._id)") Paid & Completed
+
+                .flexing#completed(ng-controller="completed")
+                    .card(ng-repeat="c in completed")
+                        .card-block
+                            h4.card-title {{c.fullname}}
+                                h6.card-subtitle.mb-2.text-muted +254{{c.phone}}
+                                h6.card-subtitle.mb-2.text-muted {{c.category}} &gt; {{c.sub}} &gt; {{c.name}}
+
+                                p.card-text Price: KES {{c.price}}
