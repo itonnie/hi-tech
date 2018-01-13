@@ -8,6 +8,11 @@ body {
 
 a {
   color: #00B7FF;
+  text-decoration: none !important;
+}
+
+a:active, a:visited, a:hover {
+  text-decoration: none !important;
 }
 
 .space {
@@ -24,9 +29,7 @@ a {
 }
 
 .active-panel {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-gap: 10px;
+  display: block;
 }
 
 .flexbox {
@@ -35,6 +38,8 @@ a {
 
 .sharp {
   border-radius: 0;
+  display: grid;
+  grid-template-columns: 40% 60%;
 }
 
 .left {
@@ -57,35 +62,74 @@ a {
 .padding {
   padding: 1.5em 2em;
 }
-
-.navtabs {
-  display: flex;
+/* Change browser default behaviour*/
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  background-color: #333 !important;
+  color: white !important;
 }
 
-.navtabs > span {
-  flex: 1;
-  width: 50%;
-  padding: 1em 2em;
-  color: #333;
-  text-align: center;
-  margin-bottom: 5px;
+input:focus {
+  outline-color: transparent !important;
 }
 
-.activetab {
-  border-bottom: 3px solid #333;
+.matinput {
+  border: none;
+  margin: 5px;
+  background-color: transparent;
+  border-bottom: 3px solid gray;
 }
 
-.navpanel {
-  display: none;
+.matinput:active, .matinput:focus, {
+  background-color: transparent;
+  outline: none;
+  outline-style: none;
+  outline-color: transparent;
+  outline-width: 0px;
 }
 
-.activepanel {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
+/* Action Button Styles */
+
+tbody {
+  cursor: pointer;
 }
 
-.thin {
-  width: 300px;
+.bttn {
+  padding: .3em 2em;
+  background: #333;
+  border-radius: 0;
+  margin: -1em 0;
+  border: none;
+  color: white;
+  font-family: 'Segoe UI Light';
+  transition: .05s all ease-in;
+}
+
+.bttn:active, .bttn:focus {
+  outline: none !important;
+  outline-color: transparent !important;
+}
+
+.bttn:active {
+  background: white;
+  color: black;
+}
+
+.bttn-teal {
+  background: teal;
+}
+
+/* Navigation Buttons */
+
+.bttn-dull {
+  opacity: .5;
+  padding: .7em 2em;
+}
+
+.bttn-dull:hover {
+  background: white;
+  color: #000 !important;
+}
+
+.nav-active {
+  opacity: 1 !important;
 }

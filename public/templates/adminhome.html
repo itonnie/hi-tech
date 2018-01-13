@@ -1,0 +1,144 @@
+
+<div class="flexbox">
+  <div class="right">
+    <div class="panel">
+      <p class="panel-heading">Orders</p>
+      <div class="panel-block" ng-controller="search" data-id="search">
+        <p class="control has-icons-left">
+          <input class="input is-small" type="text" placeholder="search" ng-model="search" ng-keyup="searchParam($event, search)"/><span class="icon is-small is-left"><i class="fa fa-search"></i></span>
+        </p>
+      </div><a class="panel-block is-active" href="#" data-id="pending">Pending Orders
+        <div class="space"></div><span class="badge badge-info">{{pendingLength}}</span></a><a class="panel-block" href="#" data-id="quoted">Quoted Orders
+        <div class="space"></div><span class="badge badge-warning">{{quotedLength}}</span></a><a class="panel-block" href="#" data-id="approved">Approved Orders
+        <div class="space"></div><span class="badge badge-success">{{approvedLength}}</span></a><a class="panel-block" href="#" data-id="completed">Completed Orders
+        <div class="space"></div><span class="badge badge-default">{{completedLength}}</span></a>
+    </div><br/>
+    <div class="list-group"><a class="list-group-item">Settings</a><a class="list-group-item list-group-item-action" href="/admin/logout">Log Out</a></div>
+  </div>
+  <div class="left">
+    <div class="flexing" id="search" ng-controller="search">
+      <h3 class="text-muted" ng-show="!searchLength">No results found...</h3>
+      <div class="card" ng-repeat="s in searchValues">
+        <div class="card-block"> 
+          <h4 class="card-title">{{s.fullname}}</h4>
+          <time class="text-muted text-success">{{s.from}}</time><br/>
+          <time class="text-muted text-danger">{{s.to}}</time>
+          <h5 class="card-subtitle">{{s.county}}</h5>
+          <h5 class="card-subtitle">{{s.town}}</h5>
+          <h5 class="card-subtitle">{{s.street}}</h5>
+          <p class="text-warning" ng-show="s.quoted">Quoted</p>
+          <p class="text-info" ng-show="s.pending">Pending</p>
+          <p class="text-success" ng-show="s.approved">Approved</p>
+          <p class="text-success" ng-show="s.completed">Completed</p>
+          <p class="text-success" ng-show="s.cancelled">Cancelled</p>
+        </div>
+      </div>
+    </div>
+    <div class="flexing active-panel" id="pending" ng-controller="pending">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Phone</th>
+            <th>Location</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="x in appointments">
+            <th scope="row">{{x.fullname}}</th>
+            <td>+254{{x.phone}}</td>
+            <td>{{x.county}}</td>
+            <td>
+              <div class="btn-group" role="group" aria-label="actions">
+                <button class="button bttn bttn-teal">Quote</button>
+                <button class="button bttn viewBttn">View</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!--.list-group
+      li.pen.list-group-item.list-group-item-action() 
+          div {{x.fullname}}
+          div +254{{x.phone}}
+          .btn-group(role="group", aria-label="actions")
+              button.btn.btn-danger Cancel
+              button.btn.btn-success Quote
+              button.btn.btn-info Info
+      
+      -->
+    </div>
+    <div class="flexing" id="quoted" ng-controller="quoted">
+      <div class="card" ng-repeat="q in quoted">
+        <div class="card-block">
+          <h4 class="card-title">{{q.fullname}}</h4>
+          <h6 class="card-subtitle mb-2 text-muted">+254{{q.phone}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{q.category}} &gt; {{q.sub}} &gt; {{q.name}}</h6>
+          <p class="card-text">Price: KES {{q.price}}</p>
+          <div approved="approved"></div>
+          <button class="card-link btn btn-sm btn-success" ng-click="approve(q._id)" ng-disabled="q.approved">Approve Job</button>
+          <p class="text-muted">Approve a job when experts start working on it</p>
+        </div>
+      </div>
+    </div>
+    <div class="flexing" id="approved" ng-controller="approved">
+      <div class="card" ng-repeat="a in approved">
+        <div class="card-block">
+          <h4 class="card-title">{{a.fullname}}</h4>
+          <h6 class="card-subtitle mb-2 text-muted">+254{{a.phone}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{a.category}} &gt; {{a.sub}} &gt; {{a.name}}</h6>
+          <p class="card-text">Price: KES {{a.price}}</p>
+          <button class="card-link btn btn-sm btn-success" ng-click="paidncompleted(a._id)">Paid & Completed</button>
+        </div>
+      </div>
+    </div>
+    <div class="flexing" id="completed" ng-controller="completed">
+      <div class="card" ng-repeat="c in completed">
+        <div class="card-block">
+          <h4 class="card-title">{{c.fullname}}
+            <h6 class="card-subtitle mb-2 text-muted">+254{{c.phone}}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{c.category}} &gt; {{c.sub}} &gt; {{c.name}}</h6>
+            <p class="card-text">Price: KES {{c.price}}</p>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $('.panel-block').on('click', function() {
+        $('.panel-block').removeClass('is-active');
+        $(this).addClass('is-active');
+
+        $('.flexing').removeClass('active-panel');
+        var id = $(this).attr('data-id');
+
+        var elementId = "#" + id;
+        $(elementId).addClass('active-panel');
+    });
+
+    $('.navtab').click(function() {
+        $('.navtab').removeClass('activetab');
+        $(this).addClass('activetab');
+
+        var id = $(this).attr('data-val');
+
+        var elId = '#' + id;
+        $('.navpanel').removeClass('activepanel');
+        $(elId).addClass('activepanel');
+    });
+
+    //loading styles for Quote and View Buttons
+    $('.viewBttn').on('click', function() {
+        $('.viewBttn').removeClass("is-loading");
+        $(this).addClass("is-loading");
+    });
+
+    //Navigation buttons switch animation 
+    $('.bttn-dull').on('click', function() {
+        $('.bttn-dull').removeClass("nav-active");
+        $(this).addClass("nav-active");
+    });
+</script>

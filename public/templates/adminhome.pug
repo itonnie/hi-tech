@@ -1,0 +1,109 @@
+.flexbox
+            .right
+                .panel
+                    p.panel-heading Orders
+                    .panel-block(ng-controller="search", data-id="search")
+                        p.control.has-icons-left
+                            input.input.is-small(type="text", placeholder="search", ng-model="search", ng-keyup="searchParam($event, search)")
+                            span.icon.is-small.is-left
+                                i.fa.fa-search
+
+                    a.panel-block.is-active(href="#", data-id="pending") Pending Orders
+                        .space
+                        span.badge.badge-info {{pendingLength}}
+                    a.panel-block(href="#", data-id="quoted") Quoted Orders
+                        .space
+                        span.badge.badge-warning {{quotedLength}}
+                    a.panel-block(href="#", data-id="approved") Approved Orders
+                        .space
+                        span.badge.badge-success {{approvedLength}}
+                    a.panel-block(href="#", data-id="completed") Completed Orders
+                        .space
+                        span.badge.badge-default {{completedLength}}
+                
+                br
+                .list-group
+                    a.list-group-item Settings
+                    a.list-group-item.list-group-item-action(href="/admin/logout") Log Out
+            .left
+                .flexing#search(ng-controller="search")
+                    h3.text-muted(ng-show="!searchLength") No results found...
+                    .card(ng-repeat="s in searchValues")
+                        .card-block 
+                            h4.card-title {{s.fullname}}
+                            time.text-muted.text-success {{s.from}}
+                            br
+                            time.text-muted.text-danger {{s.to}}
+
+                            h5.card-subtitle {{s.county}}
+                            h5.card-subtitle {{s.town}}
+                            h5.card-subtitle {{s.street}}
+
+                            p.text-warning(ng-show="s.quoted") Quoted
+                            p.text-info(ng-show="s.pending") Pending
+                            p.text-success(ng-show="s.approved") Approved
+                            p.text-success(ng-show="s.completed") Completed
+                            p.text-success(ng-show="s.cancelled") Cancelled
+
+                .flexing.active-panel#pending(ng-controller="pending")
+                
+                    table.table.table-hover
+                        thead
+                            tr
+                                th Full Name
+                                th Phone
+                                th Location
+                                th Actions
+
+                        tbody
+                            tr(ng-repeat="x in appointments")
+                                th(scope="row") {{x.fullname}}
+                                td +254{{x.phone}}
+                                td {{x.county}}
+                                td
+                                    .btn-group(role="group", aria-label="actions")
+                                        button.button.bttn.bttn-teal Quote
+                                        button.button.bttn.viewBttn View
+                    //.list-group
+                        li.pen.list-group-item.list-group-item-action() 
+                            div {{x.fullname}}
+                            div +254{{x.phone}}
+                            .btn-group(role="group", aria-label="actions")
+                                button.btn.btn-danger Cancel
+                                button.btn.btn-success Quote
+                                button.btn.btn-info Info
+                
+                .flexing#quoted(ng-controller="quoted")
+                    .card(ng-repeat="q in quoted")
+                        .card-block
+                            h4.card-title {{q.fullname}}
+                            h6.card-subtitle.mb-2.text-muted +254{{q.phone}}
+                            h6.card-subtitle.mb-2.text-muted {{q.category}} &gt; {{q.sub}} &gt; {{q.name}}
+
+                            p.card-text Price: KES {{q.price}}
+                            div(approved)
+
+                            button.card-link.btn.btn-sm.btn-success(ng-click="approve(q._id)", ng-disabled="q.approved") Approve Job
+                            p.text-muted Approve a job when experts start working on it
+
+                .flexing#approved(ng-controller="approved")
+                    .card(ng-repeat="a in approved")
+                        .card-block
+                            h4.card-title {{a.fullname}}
+                            h6.card-subtitle.mb-2.text-muted +254{{a.phone}}
+                            h6.card-subtitle.mb-2.text-muted {{a.category}} &gt; {{a.sub}} &gt; {{a.name}}
+
+                            p.card-text Price: KES {{a.price}}
+
+                            button.card-link.btn.btn-sm.btn-success(ng-click="paidncompleted(a._id)") Paid & Completed
+
+                .flexing#completed(ng-controller="completed")
+                    .card(ng-repeat="c in completed")
+                        .card-block
+                            h4.card-title {{c.fullname}}
+                                h6.card-subtitle.mb-2.text-muted +254{{c.phone}}
+                                h6.card-subtitle.mb-2.text-muted {{c.category}} &gt; {{c.sub}} &gt; {{c.name}}
+
+                                p.card-text Price: KES {{c.price}}
+
+            

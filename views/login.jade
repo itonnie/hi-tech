@@ -9,37 +9,19 @@ block content
 
     .container
         .jumbotron.sharp
-            nav.navtabs
-                span.navtab.activetab(data-val="login") Login
-                span.navtab(data-val="signup") Sign Up
+            div
+            div(ng-controller="login")
+                h3.is-3.text-center Admin authentication.
 
-            .panels
-                #login.navpanel.activepanel(ng-controller="login")
-                    .card(style="margin-top: 30px;")
-                        .card-body.thin
-                            h3.text-muted.text-center Please login with your email and password
-                            form
-                                
-                                input.form-control#mail(placeholder="email", type="email", name="email", ng-model="email", required)
-                                br
-                                
-                                input.form-control#pass(placeholder="password", type="password", name="password", ng-model="password", required)
-                                br
+                form(name="loginForm")
+                    input.matinput(type="email", name="lemail", ng-model="lemail", placeholder="email", required)
+                    span.text-danger(ng-show="loginForm.lemail.$touched && loginForm.lemail.$invalid") please enter a valid email
 
-                                input.btn.btn-success.btn-block(type="submit", value="Log In", ng-click="submitForm(email, password)")
-                #signup.navpanel(ng-controller="signup")
-                    .card
-                        .card-body.thin
-                            h3.text-muted.text-center Create a new account
-                            form
-                                
-                                input.form-control#susername(placeholder="username", type="text", name="susername", ng-model="susername", required)
-                                br
+                    br
 
-                                input.form-control#smail(placeholder="email", type="email", name="semail", ng-model="semail", required)
-                                br
-                                
-                                input.form-control#spass(placeholder="password", type="password", name="spassword", ng-model="spassword", required)
-                                br
+                    input.matinput(type="password", name="lpassword", ng-model="lpassword", placeholder="password" required)
+                    span.text-danger(ng-show="loginForm.lpassword.$touched && loginForm.lpassword.$invalid") You'll need a password
 
-                                input.btn.btn-success.btn-block(type="submit", value="Sign In", ng-click="createAccount(susername, semail, spassword)")
+                    br
+                    
+                    button.md-button.md-primary(ng-click="login(lemail, lpassword)") Login

@@ -20,4 +20,16 @@ $(document).ready(function() {
         $('.navpanel').removeClass('activepanel');
         $(elId).addClass('activepanel');
     });
+
+    //loading styles for Quote and View Buttons
+    $('.viewBttn').on('click', function() {
+        $('.viewBttn').removeClass("is-loading");
+        $(this).addClass("is-loading");
+    });
+
+    //Navigation buttons switch animation 
+    $('.bttn-dull').on('click', function() {
+        $('.bttn-dull').removeClass("nav-active");
+        $(this).addClass("nav-active");
+    })
 });

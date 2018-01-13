@@ -1,14 +1,10 @@
 var express = require('express');
 var Appointment = require('../models/appointment');
 var Admin = require('../models/admin');
+var Technician = require("../models/technician");
+var Manager = require("../models/manager");
 var session = require('express-session');
 var router = express.Router();
-
-router.get('/', checkSignIn, (req, res, next) => {
-    res.render('admin', {
-        title: 'Admin'
-    });
-});
 
 router.get('/schedules/:type', (req, res, next) => {
     var type = req.params.type;
@@ -77,12 +73,6 @@ router.get('/schedules/:type', (req, res, next) => {
     }
 });
 
-router.get('/login', (req, res, next) => {
-    res.render('login', {
-        title: "Admin login"
-    });
-});
-
 router.get('/paid/:id', (req, res, next) => {
     var id = req.params.id;
 
@@ -147,81 +137,6 @@ router.post('/approve', (req, res, next) => {
     });
 });
 
-router.post('/login', (req, res, next) => {
-    if(!req.body.email || !req.body.password) {
-        res.status("400");
-        res.send("Invalid data");
-    } else {
-        var email = req.body.email;
-        var password = req.body.password;
-        Admin.findOne({ email: email, password: password }, (err, result) => {
-            if(err) throw err;
-            else if(result == null) {
-                res.json({
-                    ok: false,
-                    message: "Incorrect passwords or email"
-                });
-            }
-            else {
-                var user = {
-                    email: email,
-                    password: password
-                };
-                req.session.user = user;
-                res.json({
-                    title: "Home",
-                    username: result.username
-                });
-            }
-        });
-    }
-});
-
-router.post('/signup', (req, res, next) => {
-    if(!req.body.email || !req.body.username || !req.body.password) {
-        res.status("400");
-        res.send("Invalid data");
-    } else {
-        var email = req.body.email;
-        var username = req.body.username;
-        var password = req.body.password;
-
-        Admin.findOne({ email: email }, (err, result) => {
-            if(err) throw err;
-            else if(!result) {
-                //user doesnt exist
-                var newuser = new Admin({
-                    username: username,
-                    password: password,
-                    email: email
-                });
-
-                //save session
-                var user = {
-                    email: email,
-                    password: password
-                };
-
-                req.session.user = user;
-
-                newuser.save((err, saved) => {
-                    if(err) throw err;
-                    else {
-                        res.json({
-                            ok: true
-                        })
-                    }
-                })
-            } else {
-                res.json({
-                    ok: false,
-                    message: "The user exists, please login."
-                });
-            }
-        });
-    }
-});
-
 router.get('/search/:search', (req, res, next) => {
     var search = req.params.search;
     Appointment.find({
@@ -243,20 +158,214 @@ router.get('/search/:search', (req, res, next) => {
     });
 });
 
-router.get('/logout', (req, res, next) => {
-    req.session.destroy(function() {
-        //user logged out
-    });
-    res.redirect('/admin/login');
-})
+router.get("/removetechnician/:id", (req, res, next)=> {
+    var id = req.params.id;
 
-function checkSignIn(req, res, next) {
-    if(req.session.user) {
-        next();
-    } else {
-        var err = new Error("Not Logged in!");
-        res.redirect('/admin/login');
-    }
-}
+    Technician.findByIdAndRemove(id, (err, response) => {
+        if(err) throw err;
+        else {
+           Technician.find((err, data) => {
+               if(err) throw err;
+               else {
+                   res.json({
+                       ok: true,
+                       data: data
+                   });
+               }
+           });
+        }
+    });
+});
+
+router.post("/manager_permissions", (req, res, next) => {
+    var id = req.body.id;
+
+    Manager.update({ _id: id }, { permissions: {
+        generate_report: req.body.g_r,
+        quote_order: req.body.q_o,
+        add_technician: req.body.a_t,
+        remove_technician: req.body.r_t,
+        edit_technician: req.body.e_t,
+        delete_order : req.body.d_o,
+        cancel_order : req.body.c_o,
+        view_clients : req.body.v_c,
+        generate_client_info : req.body.g_c_i,
+        approve_order : req.body.a_o,
+        complete_order : req.body.com_o,
+        email_client : req.body.e_c
+    } }, { "new": true }, (err, data) => {
+        if(err) throw err;
+        else {
+            res.json({
+                ok: true,
+                data: data
+            });
+        }
+    });
+});
+
+router.post("/technician_permissions", (req, res, next) => {
+    var id = req.body.id;
+
+    Technician.update({ _id: id }, { permissions: {
+        generate_report : req.body.g_r,
+        quote_order : req.body.q_o,
+        add_technician : req.body.a_t,
+        remove_technician : req.body.r_t,
+        edit_technician : req.body.e_t,
+        delete_order : req.body.d_o,
+        cancel_order : req.body.c_o,
+        view_clients : req.body.v_c,
+        generate_client_info : req.body.g_c_i,
+        approve_order : req.body.a_o,
+        complete_order : req.body.com_o,
+        email_client : req.body.e_c
+    } }, { new: true }, (err, data) => {
+        if(err) throw err;
+        else {
+            res.json({
+                ok: true,
+                data: data
+            });
+        }
+    });
+});
+
+router.get("/removemanager/:id", (req, res, next)=> {
+    var id = req.params.id;
+
+    Manager.findByIdAndRemove(id, (err, response) => {
+        if(err) throw err;
+        else {
+            Manager.find((err, data) => {
+                if(err) throw err;
+                else {
+                    res.json({
+                        ok: true,
+                        data: data
+                    });
+                }
+            });
+        }
+    });
+});
+
+router.post("/addtechnician", (req, res, next) => {
+    var username = req.body.username;
+    var phone = req.body.phone;
+    var email = req.body.email;
+    var staff_id = req.body.staff_id;
+    var title = req.body.title;
+
+    var newTech = new Technician({
+        username: username,
+        phone: phone,
+        email: email,
+        password: "12345678",
+        staff_id: staff_id,
+        title: title,
+        account_created: Date.now(),
+        last_login: Date.now(),
+        permissions: {
+            generate_report: true,
+            quote_order: true,
+            add_technician: false,
+            remove_technician: false,
+            edit_technician: false,
+            delete_order: false,
+            cancel_order: false,
+            view_clients: false,
+            generate_client_info: false,
+            approve_order: false,
+            complete_order: false,
+            email_client: false
+        }
+    });
+
+    Technician.findOne({ email: email }, (err, result) => {
+        if(err) throw err;
+        else if(result == null) {
+            newTech.save((error, data) => {
+                if(error) throw error;
+                else {
+                    Technician.find((erro, data2) => {
+                        if(erro) throw erro;
+                        else {
+                            res.json({
+                                ok: true,
+                                data: data2,
+                                info: data
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            res.json({
+                ok: false,
+                data: result,
+                message: "Technitian already exists."
+            });
+        }
+    });
+});
+
+router.post("/addmanager", (req, res, next) => {
+    var username = req.body.username;
+    var phone = req.body.phone;
+    var email = req.body.email;
+    var staff_id = req.body.staff_id;
+
+    var newManager = new Manager({
+        username: username,
+        phone: phone,
+        email: email,
+        password: "12345678",
+        staff_id: staff_id,
+        account_created: Date.now(),
+        last_login: Date.now(),
+        permissions: {
+            generate_report: true,
+            quote_order: true,
+            add_technician: true,
+            remove_technician: true,
+            edit_technician: true,
+            delete_order: false,
+            cancel_order: false,
+            view_clients: true,
+            generate_client_info: true,
+            approve_order: true,
+            complete_order: true,
+            email_client: true
+        }
+    });
+
+    Manager.findOne({ email: email }, (err, result) => {
+        if(err) throw err;
+        else if(result == null) {
+            newManager.save((error, data) => {
+                if(error) throw error;
+                else {
+                    Manager.find((erro, data2) => {
+                        if(erro) throw erro;
+                        else {
+                            res.json({
+                                ok: true,
+                                data: data2,
+                                info: data
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            res.json({
+                ok: false,
+                data: result,
+                message: "Manager already exists."
+            });
+        }
+    });
+});
 
 module.exports = router;

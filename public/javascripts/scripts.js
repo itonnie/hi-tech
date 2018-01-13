@@ -1,15 +1,32 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ["ngRoute"]);
+
+app.config(function($routeProvider) {
+    $routeProvider
+    .when("/", {
+        templateUrl: "templates/adminhome.html"
+    }).when("/users", {
+        templateUrl: "templates/users.html"
+    }).when("/clients", {
+        templateUrl: "templates/clients.html"
+    }).when("/order_info", {
+        templateUrl: "templates/order_info.html"
+    });
+})
 
 app.run(function($rootScope, $http) {
+
+    //the function getItems is set to rootScope to be accessible by all controllers
     $rootScope.getItems = function(itemname, callback) {
         $http.get("/admin/schedules/" + itemname).then(function(result) {
             callback(result.data.data);
         });
     }
-})
+});
 
 //PENDING CONTROLLER
 app.controller("pending", function($rootScope, $scope, $http) {
+
+    $rootScope.username = window.localStorage.getItem("username");
     
     $rootScope.getItems("pending", (data) => {
         $rootScope.appointments = data;
@@ -115,8 +132,44 @@ app.controller("search", function($rootScope, $scope, $http) {
     }
 });
 
-app.controller("login", function($rootScope, $scope, $http) {
-    $scope.submitForm = function(email, password) {
+app.controller("login", function($scope, $http) {
+    $scope.login = function(email, password) {
+        $http.post('/admin/adminlogin', {
+            email: email,
+            password: password
+        }).then(function(response) {
+            switch(response.status) {
+                case 200:
+                    if(response.data.ok == false) {
+                        //display error message
+                        alert(response.data.message);
+                    } else {
+                        //save username and permission levels to localStorage
+                        window.localStorage.setItem("username", response.data.username);
+                        //token!
+                        window.localStorage.setItem("add_technician", response.data.add_technician);
+                        window.localStorage.setItem("remove_technician", response.data.remove_technician);
+                        window.localStorage.setItem("approve_order", response.data.approve_order);
+                        window.localStorage.setItem("cancel_order", response.data.cancel_order);
+                        window.localStorage.setItem("complete_order", response.data.complete_order);
+                        window.localStorage.setItem("delete_order", response.data.delete_order);
+                        window.localStorage.setItem("edit_technician", response.data.edit_technician);
+                        window.localStorage.setItem("email_client", response.data.email_client);
+                        window.localStorage.setItem("generate_client_info", response.data.generate_client_info);
+                        window.localStorage.setItem("quote_order", response.data.quote_order);
+                        window.localStorage.setItem("generate_report", response.data.generate_report);
+
+                        window.location.assign('/admin');
+                    }
+                break;
+
+                case 400:
+                    alert("Please enter valid data");
+                break;
+            }
+        })
+    }
+    /*$scope.submitForm = function(email, password) {
         $http.post("/admin/login", {
             email: email,
             password: password
@@ -129,22 +182,5 @@ app.controller("login", function($rootScope, $scope, $http) {
                 window.location.assign('/admin');
             }
         });
-    }
+    }*/
 });
-
-app.controller("signup", function($scope, $http) {
-    $scope.createAccount = function(username, email, password) {
-        $http.post("/admin/signup", {
-            username: username,
-            email: email,
-            password: password
-        }).then(function(data) {
-            if(data.data.ok == true) {
-                alert("Account successfully created");
-                window.location.assign('/admin');
-            } else {
-                alert(data.data.message);
-            }
-        })
-    }
-})
