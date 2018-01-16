@@ -1,18 +1,15 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var debug = require('debug')('hi-tech:server');
 var http = require('http');
+var Visitor = require("../models/visitors");
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '80');
+var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
@@ -20,10 +17,35 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+var io = require("socket.io").listen(server);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
+
+ //Sockets
+ io.sockets.on("connection", (socket) => {
+
+   var ip = socket.handshake.address;
+
+   socket.on("locationinfo", (data) => {
+     var newvisitor = new Visitor({
+       ip: ip,
+       isMobile: false,
+       //change this
+       coords: data.coords
+     });
+
+     newvisitor.save((err,result) => {
+       if(err) {
+         console.log(err);
+       } else {
+         console.log(result);
+       }
+     });
+   });
+   
+ });
 
 server.listen(port);
 server.on('error', onError);
