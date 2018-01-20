@@ -1,5 +1,6 @@
 var express = require('express');
 var Appointment = require('../models/appointment');
+var Activity = require("../models/activity");
 var path = require("path");
 var router = express.Router();
 
@@ -9,29 +10,18 @@ router.get('/', function(req,  res, next) {
 });
 
 router.post('/addschedule', (req, res, next) => {
-  var from = req.body.from;
-  var to = req.body.to;
-  var county = req.body.county;
-  var fullname = req.body.fullname;
-  var town = req.body.town;
-  var street = req.body.street;
-  var phone = req.body.phone;
-  var category = req.body.category;
-  var sub = req.body.sub;
-  var name = req.body.name;
-  var email = req.body.email;
 
   var Apoint = new Appointment({
-    from: from,
-    to: to,
-    county: county,
-    fullname: fullname,
-    town: town,
-    street: street,
-    phone: phone,
-    category: category,
-    sub: sub,
-    name: name,
+    from: req.body.from,
+    to: req.body.to,
+    county: req.body.county,
+    fullname: req.body.fullname,
+    town: req.body.town,
+    street: req.body.street,
+    phone: req.body.phone,
+    category: req.body.category,
+    sub: req.body.sub,
+    name: req.body.name,
     quoted: false,
     pending: true,
     approved: false,
@@ -39,12 +29,18 @@ router.post('/addschedule', (req, res, next) => {
     price: "",
     paid: false,
     cancelled: false,
-    email: email
+    email: req.body.email
   });
 
   Apoint.save((err, result) => {
     if (err) throw err;
     else {
+      Activity.registerActivity(email, result.id, "successful appointment schedule under " + category, req.ip, (data) => {
+        if(data == false) {
+          console.log("couldn't save activity");
+        }
+      });
+
       res.json({
         ok: true,
         id: result._id

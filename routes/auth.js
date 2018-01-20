@@ -1,41 +1,57 @@
 var express = require("express");
-var request = require("request");
 var Admin = require("../models/admin");
+var Activity = require("../models/activity");
 var router = express.Router();
 
 router.post("/login", (req, res, next) => {
+    var type = req.body.type;
     var email = req.body.email;
     var password = req.body.password;
 
-    Admin.findOne({ email: email, password: password }, (err, result) => {
-        if(err) throw err;
-        else if(result == null) {
-            res.json({
-                ok: false,
-                message: "Wrong username and password combination"
-            });
-        } else {
-            var params = {
-                "user-id": "tony",
-                "api-key": "s1tvPxDKVvt4HmVGAqLow8liZqlUvEElElc0F5nnMG3ewBKM",
-                "number": "+254727321766",
-                "code-length": 6
-            };
-
-            request.post("https://neutrinoapi.com/sms-verify", {form: params}, (error, response, body) => {
-                if(error) throw error;
-                else if(response.statusCode == 200) {
-                    var data = JSON.parse(body);
+    switch(type) {
+        case "admin":
+            Admin.findOne({ email: email, password: password }, (err, result) => {
+                if(err) throw err;
+                else if(result == null) {
+        
+                    Activity.registerActivity(email, null, "failed login", req.ip, (data) => {
+                        if(data == false) {
+                            console.log("unsuccessful");
+                        }
+                    });
+        
+                    res.json({
+                        ok: false,
+                        message: "Wrong username and password combination"
+                    });
+        
+                } else {
+        
+                    Activity.registerActivity(result.email, result.id,"Successful login", req.ip, (data) => {
+                        if(data == false) {
+                            console.log("unsuccessful");
+                        }
+                    });
+        
                     res.json({
                         ok: true,
-                        verification_info: data,
-                        userData: result
+                        message: "Login successful and activity registered",
+                        data: result
                     });
                 }
-        
             });
-        }
-    });
+        break;
+
+        case "technician":
+        break;
+
+        case "manager":
+        break;
+
+        default:
+        break;
+    }
+
 });
 
 module.exports = router;

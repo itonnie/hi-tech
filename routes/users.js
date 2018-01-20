@@ -1,4 +1,5 @@
 var express = require('express');
+var Technician = require("../models/technician");
 var router = express.Router();
 
 /* GET users listing. */
