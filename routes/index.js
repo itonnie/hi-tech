@@ -9,6 +9,10 @@ router.get('/', function(req,  res, next) {
   res.sendFile("index.html")
 });
 
+router.get('/customersupport', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "..","public","customersupport.html"));
+});
+
 router.post('/addschedule', (req, res, next) => {
 
   var Apoint = new Appointment({
@@ -21,12 +25,12 @@ router.post('/addschedule', (req, res, next) => {
     phone: req.body.phone,
     category: req.body.category,
     sub: req.body.sub,
-    name: req.body.name,
+    subsub: req.body.subsub,
     quoted: false,
     pending: true,
     approved: false,
     completed: false,
-    price: "",
+    price: "", 
     paid: false,
     cancelled: false,
     email: req.body.email
@@ -35,7 +39,7 @@ router.post('/addschedule', (req, res, next) => {
   Apoint.save((err, result) => {
     if (err) throw err;
     else {
-      Activity.registerActivity(email, result.id, "successful appointment schedule under " + category, req.ip, (data) => {
+      Activity.registerActivity(req.body.email, result.id, "successful appointment schedule under " + req.body.category, req.ip, (data) => {
         if(data == false) {
           console.log("couldn't save activity");
         }

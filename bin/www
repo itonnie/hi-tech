@@ -24,6 +24,7 @@ var io = require("socket.io").listen(server);
  */
 
  //Sockets
+ var nicknames = {};
  io.sockets.on("connection", (socket) => {
 
    var ip = socket.handshake.address;
@@ -33,7 +34,7 @@ var io = require("socket.io").listen(server);
        ip: ip,
        isMobile: false,
        //change this
-       coords: data.coords
+       coords: data.Position.coords
      });
 
      newvisitor.save((err,result) => {
@@ -44,6 +45,42 @@ var io = require("socket.io").listen(server);
        }
      });
    });
+
+   socket.on("newcustomer", (data) => {
+     if(data in nicknames) {
+       io.sockets.emit("useradded", false);
+     } else {
+       socket.nickname = data;
+       nicknames[socket.nickname] = socket.nickname;
+       io.sockets.emit("useradded", true);
+       io.sockets.emit("useradded", socket.nickname);
+     }
+   });
+
+   //Show all users
+   socket.on("clients", data => {
+    io.sockets.emit("usernames", nicknames);
+   });
+
+   socket.on("message", data => {
+       if(data.username in nicknames) {
+         console.log(nicknames[socket.nickname])
+        nicknames[socket.nickname].emit("data", "message here");
+       } else {
+         console.log("doesnt exits");
+       }
+   })
+
+   function updateUsers() {
+    io.sockets.emit("usernames", nicknames);
+   }
+
+   //On user disconnect
+   socket.on("disconnect", data => {
+     if(!socket.nickname) return;
+     delete nicknames[socket.nickname];
+     updateUsers();
+   })
    
  });
 
