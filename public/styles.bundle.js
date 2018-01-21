@@ -97,7 +97,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 exports.i(__webpack_require__("../../../../css-loader/index.js?{\"sourceMap\":false,\"importLoaders\":1}!../../../../postcss-loader/index.js?{\"ident\":\"postcss\"}!../../../material/prebuilt-themes/indigo-pink.css"), "");
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\r\n\r\nbody {\r\n    padding: 0px;\r\n    margin: 0px;\r\n}", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\r\n\r\nbody {\r\n    padding: 0px;\r\n    margin: 0px;\r\n}\r\n\r\n.jumbotron {\r\n    border-radius: 0px;\r\n    margin-bottom: 0px;\r\n}\r\n\r\n.social {\r\n    margin: 10px;\r\n}\r\n\r\n.space {\r\n    -webkit-box-flex: 1;\r\n        -ms-flex: 1 1 auto;\r\n            flex: 1 1 auto;\r\n}\r\n\r\n.clearfix:after {\r\n    display: block;\r\n    clear: both;\r\n}\r\n\r\n.clearfix {\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n.menu {\r\n    width:100%;\r\n    margin:0px auto;\r\n}\r\n \r\n.menu li {\r\n    margin:0px;\r\n    list-style:none;\r\n    font-size: small;\r\n}\r\n \r\n.menu a {\r\n    transition:all linear 0.15s;\r\n    color:#f8f8f8;\r\n}\r\n \r\n.menu li:hover > a, .menu .current-item > a {\r\n    text-decoration:none;\r\n    color: white;\r\n}\r\n \r\n/*----- Top Level -----*/\r\n.menu > ul > li {\r\n    float:left;\r\n    position:relative;\r\n}\r\n \r\n.menu > ul > li > a {\r\n    padding:10px 10px;\r\n    border-bottom: 3px solid transparent;\r\n}\r\n \r\n.menu > ul > li:hover > a, .menu > ul > .current-item > a {\r\n    border-bottom: 3px solid white;\r\n}\r\n \r\n/*----- Bottom Level -----*/\r\n.menu li:hover .submenu {\r\n    z-index: 5;\r\n    opacity:1;\r\n    display: block;\r\n}\r\n \r\n.submenu {\r\n    width: 300px;\r\n    padding:5px 0px;\r\n    position:absolute;\r\n    top:100%;\r\n    left:0px;\r\n    display: none;\r\n    z-index:-1;\r\n    opacity:0;\r\n    transition:opacity linear 0.15s;\r\n    box-shadow:0px 2px 3px rgba(0,0,0,0.2);\r\n    background:#0e005f;\r\n    margin-top: 5px;\r\n}\r\n\r\n.sub-submenu {\r\n    width: 300px;\r\n    padding:5px 0px;\r\n    display: none;\r\n    opacity:0;\r\n    z-index:-1;\r\n    left: 100%;\r\n    position: absolute;\r\n    top: -5px;\r\n    transition:opacity linear 0.15s;\r\n    box-shadow:0px 2px 3px rgba(0,0,0,0.2);\r\n    background:#0e005f;\r\n    margin-top: 5px;\r\n}\r\n\r\n.submenu li:hover .sub-submenu {\r\n    z-index: 7;\r\n    opacity: 1;\r\n    display: block;\r\n}\r\n \r\n.submenu li {\r\n    display:block;\r\n    font-size:16px;\r\n}\r\n \r\n.submenu li a {\r\n    padding:10px 30px;\r\n    display:block;\r\n    cursor: pointer;\r\n}\r\n \r\n.submenu li a:hover, .submenu .current-item a {\r\n    background:#0400eb;\r\n}", ""]);
 
 // exports
 
@@ -470,14 +470,14 @@ function updateLink(linkElement, obj) {
 
 /***/ }),
 
-/***/ 3:
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__("../../../../../src/styles.css");
-module.exports = __webpack_require__("../../../../bootstrap/dist/css/bootstrap.min.css");
+__webpack_require__("../../../../bootstrap/dist/css/bootstrap.min.css");
+module.exports = __webpack_require__("../../../../../src/styles.css");
 
 
 /***/ })
 
-},[3]);
+},[1]);
 //# sourceMappingURL=styles.bundle.js.map
