@@ -44,6 +44,8 @@ var io = require("socket.io").listen(server);
          console.log(result);
        }
      });
+
+     io.sockets.emit("loc", data);
    });
 
    socket.on("newcustomer", (data) => {

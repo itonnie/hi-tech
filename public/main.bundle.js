@@ -418,7 +418,7 @@ var AppdataService = (function () {
         return this.http.get('assets/json/counties.json').map(function (res) { return res.json(); });
     };
     AppdataService.prototype.makeAppointment = function (from, to, county, fullname, town, street, phone, category, sub, subsub) {
-        return this.http.post('http://localhost:3000/addschedule', {
+        return this.http.post('/addschedule', {
             from: from,
             to: to,
             county: county,
@@ -432,17 +432,17 @@ var AppdataService = (function () {
         }).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.login = function (type, email, password) {
-        return this.http.post("http://localhost:3000/auth/login", {
+        return this.http.post("/auth/login", {
             type: type,
             email: email,
             password: password
         }).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.getOrders = function (type) {
-        return this.http.get("http://localhost:3000/admin/schedules/" + type).map(function (res) { return res.json(); });
+        return this.http.get("/admin/schedules/" + type).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.viewOrder = function (id) {
-        return this.http.post("http://localhost:3000/admin/order", {
+        return this.http.post("/admin/order", {
             id: id
         }).map(function (res) { return res.json(); });
     };
@@ -454,21 +454,21 @@ var AppdataService = (function () {
         this.stafflevel.next(type);
     };
     AppdataService.prototype.quoteOrder = function (id, quotation) {
-        return this.http.post("http://localhost:3000/admin/quote", {
+        return this.http.post("/admin/quote", {
             id: id,
             quotation: quotation
         }).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.approveOrder = function (id) {
-        return this.http.post("http://localhost:3000/admin/approve", {
+        return this.http.post("/admin/approve", {
             id: id
         }).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.completeOrder = function (id) {
-        return this.http.get("http://localhost:3000/admin/paid/" + id).map(function (res) { return res.json(); });
+        return this.http.get("/admin/paid/" + id).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.addTechnician = function (username, email, phone, staffid, title) {
-        return this.http.post("http://localhost:3000/admin/addtechnician", {
+        return this.http.post("/admin/addtechnician", {
             username: username,
             phone: phone,
             email: email,
@@ -477,7 +477,7 @@ var AppdataService = (function () {
         }).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.addManager = function (username, email, phone, staffid) {
-        return this.http.post("http://localhost:3000/admin/addmanager", {
+        return this.http.post("/admin/addmanager", {
             username: username,
             phone: phone,
             email: email,
@@ -485,17 +485,17 @@ var AppdataService = (function () {
         }).map(function (res) { return res.json(); });
     };
     AppdataService.prototype.getTechnicians = function () {
-        return this.http.get("http://localhost:3000/users/technicians").map(function (res) { return res.json(); });
+        return this.http.get("/users/technicians").map(function (res) { return res.json(); });
     };
     AppdataService.prototype.getManagers = function () {
-        return this.http.get("http://localhost:3000/users/managers").map(function (res) { return res.json(); });
+        return this.http.get("/users/managers").map(function (res) { return res.json(); });
     };
     AppdataService.prototype.viewStaff = function (id, level) {
         if (level == "technician") {
-            return this.http.get("http://localhost:3000/users/technician/" + id).map(function (res) { return res.json(); });
+            return this.http.get("/users/technician/" + id).map(function (res) { return res.json(); });
         }
         else if (level == "manager") {
-            return this.http.get("http://localhost:3000/users/manager/" + id).map(function (res) { return res.json(); });
+            return this.http.get("/users/manager/" + id).map(function (res) { return res.json(); });
         }
     };
     return AppdataService;
@@ -1301,6 +1301,11 @@ var SocketsService = (function () {
     }
     SocketsService.prototype.sendLocation = function (pos) {
         this.socket.emit("locationinfo", pos);
+    };
+    SocketsService.prototype.recieveLocation = function () {
+        this.socket.on("loc", function (data) {
+            console.log(data);
+        });
     };
     return SocketsService;
 }());
