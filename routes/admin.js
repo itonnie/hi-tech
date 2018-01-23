@@ -94,23 +94,39 @@ router.get('/paid/:id', (req, res, next) => {
     });
 });
 
+//Information about the order
+router.post("/order", (req, res, next) => {
+    var _id = req.body.id;
+
+    Appointment.findById(_id, (err, response) => {
+        if(err) {
+            res.json({
+                ok: false,
+                message: "Order could not be found."
+            })
+        }
+        else {
+            res.json({
+                ok: true,
+                data: response
+            });
+        }
+    })
+})
+
+//make a quotation on the order
 router.post('/quote', (req, res, next) => {
     var id = req.body.id;
     var quotation = req.body.quotation;
 
     Appointment.findOneAndUpdate({ _id: id }, {
         $set: { quoted: true, price: quotation, pending: false}
-    }, (err, doc) => {
+    }, {new: true }, (err, doc) => {
         if(err) throw err;
         else {
-            Appointment.find({ pending: true }, (err, data) => {
-                if(err) throw err;
-                else {
-                    res.json({
-                        ok: true,
-                        data: data
-                    });
-                }
+            res.json({
+                ok: true,
+                data: doc
             });
         }
     });
