@@ -15,20 +15,20 @@ var appSchema = mongoose.Schema({
     cancelled: Boolean,
     pending: Boolean,
     quoted: Boolean,
-    //quoted: {
-    //  ok: Boolean,
-    //  created: Date,
-    //  price: Number
-    //}
     approved: Boolean,
-    //approved: {
-    //  ok: Boolean,
-    //  created: Date,
-    //}
     completed: Boolean,
     price: Number,
     paid: Boolean,
-    email: String
+    email: String,
+    desc: String,
+    warranty: Boolean,
+    comments: [
+        {
+            username: String,
+            comment: String,
+            time: { type: Date, default: Date.now() }
+        }
+    ]
 }, { collection: 'appointments'});
 
 var Appointment = mongoose.model('Appointment', appSchema);
