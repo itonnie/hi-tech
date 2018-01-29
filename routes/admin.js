@@ -192,7 +192,6 @@ router.post("/manager_permissions", (req, res, next) => {
 
 router.post("/technician_permissions", (req, res, next) => {
     var id = req.body.id;
-
     Technician.update({ _id: id }, { permissions: {
         generate_report : req.body.g_r,
         quote_order : req.body.q_o,
@@ -209,10 +208,15 @@ router.post("/technician_permissions", (req, res, next) => {
     } }, { new: true }, (err, data) => {
         if(err) throw err;
         else {
-            res.json({
-                ok: true,
-                data: data
-            });
+            Technician.findOne({ _id: id }, (err, data) => {
+                if(err) throw err;
+                else {
+                    res.json({
+                        ok: true,
+                        data: data
+                    });
+                }
+            });       
         }
     });
 });
@@ -353,5 +357,31 @@ router.post("/addmanager", (req, res, next) => {
         }
     });
 });
+
+router.post('/comment', (req, res, next) => {
+    var id = req.body.id;
+    Appointment.update({ _id: id }, {
+        $push: {
+            comments: {
+                username: req.body.username,
+                comment: req.body.comment
+            }
+        }
+    }, { new: true },(err, result) => {
+        if(err) throw err;
+        else {
+            Appointment.findOne({ _id: id }, (err, data) => {
+                if(err) throw err;
+                else {
+                    res.json({
+                        ok: true,
+                        data: data
+                    });
+                }
+            })
+            
+        }
+    })
+})
 
 module.exports = router;
