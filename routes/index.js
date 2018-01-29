@@ -27,6 +27,7 @@ router.get('/', function(req,  res, next) {
       });
     
       newVisitor.save((err, response) => {
+        console.log(response);
         if(err) throw err;
         else {
           res.sendFile("index.html");
@@ -41,6 +42,15 @@ router.get('/', function(req,  res, next) {
     }
   });
 
+});
+
+router.get("/func", (req, res, next) => {
+  Appointment.appointmentDetails("5a6358a61e3d8c06e4977c0d", data => {
+    res.json({
+      ok: true,
+      data: data
+    });
+  });
 });
 
 router.post('/updateinfo', (req, res, next) => {

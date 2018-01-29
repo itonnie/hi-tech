@@ -8,69 +8,12 @@ var router = express.Router();
 
 router.get('/schedules/:type', (req, res, next) => {
     var type = req.params.type;
-    switch(type) {
-        case "pending":
-            Appointment.find({ pending: true }, (err, result) => {
-                if(err) throw err;
-                res.json({
-                    ok: true,
-                    data: result
-                });
-            });
-        break;
-
-        case "quoted":
-            Appointment.find({ quoted: true }, (err, result) => {
-                if(err) throw err;
-                res.json({
-                    ok: true,
-                    data: result
-                });
-            });
-        break;
-
-        case "approved":
-            Appointment.find({ approved: true }, (err, result) => {
-                if(err) throw err;
-                res.json({
-                    ok: true,
-                    data: result
-                });
-            });
-        break;
-
-        case "completed":
-            Appointment.find({ completed: true }, (err, result) => {
-                if(err) throw err;
-                res.json({
-                    ok: true,
-                    data: result
-                });
-            });
-        break;
-
-        case "cancelled":
-            Appointment.find({ cancelled: true }, (err, result) => {
-                if(err) throw err;
-                res.json({
-                    ok: true,
-                    data: result
-                });
-            });
-        break;
-
-        default:
-            Appointment.find((err, result) => {
-                if(err) throw err;
-                else {
-                    res.json({
-                        ok: true,
-                        data: result
-                    });
-                }
-            });
-        break;
-    }
+    Appointment.getAppointments(type, data => {
+        res.json({
+            ok: true,
+            data: data
+        });
+    });
 });
 
 router.get('/paid/:id', (req, res, next) => {
@@ -81,16 +24,43 @@ router.get('/paid/:id', (req, res, next) => {
     }, (err, result) => {
         if(err) throw err;
         else {
-            Appointment.find({ approved: true }, (err, completedOrders) => {
-                if(err) throw err;
-                else {
+            Appointment.getAppointments("approved", approved => {
+                Appointment.getAppointments("completed", completed => {
                     res.json({
                         ok: true,
-                        data: completedOrders
+                        approved: approved,
+                        completed: completed
                     });
-                }
+                });
             });
         }
+    });
+});
+
+router.get("/cancel/:id", (req, res, next) => {
+    Appointment.update({ _id: req.params.id }, {
+        cancelled: true,
+        pending: false,
+        quoted: false,
+        approved: false,
+        completed: false
+    }, {new: true }, (err, cancelledOrder) => {
+        Appointment.getAppointments("pending", pending => {
+            Appointment.getAppointments("quoted", quoted => {
+                Appointment.getAppointments("approved", approved => {
+                    Appointment.getAppointments("completed", completed => {
+                        res.json({
+                            ok: true,
+                            doc: cancelledOrder,
+                            pending: pending,
+                            quoted: quoted,
+                            approved: approved,
+                            completed: completed
+                        });
+                    });
+                });
+            });
+        });
     });
 });
 
@@ -140,14 +110,14 @@ router.post('/approve', (req, res, next) => {
     }, (err, data) => {
         if(err) throw err;
         else {
-            Appointment.find({ quoted: true }, (err, result) => {
-                if(err) throw err;
-                else {
+            Appointment.getAppointments("quoted", quoted => {
+                Appointment.getAppointments("approved", approved => {
                     res.json({
                         ok: true,
-                        data: result
+                        quoted: quoted,
+                        approved: approved
                     });
-                }
+                });
             });
         }
     });
