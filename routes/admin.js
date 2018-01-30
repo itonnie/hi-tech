@@ -89,17 +89,24 @@ router.post('/quote', (req, res, next) => {
     var id = req.body.id;
     var quotation = req.body.quotation;
 
-    Appointment.findOneAndUpdate({ _id: id }, {
-        $set: { quoted: true, price: quotation, pending: false}
-    }, {new: true }, (err, doc) => {
-        if(err) throw err;
-        else {
-            res.json({
-                ok: true,
-                data: doc
-            });
-        }
-    });
+    if(quotation == undefined) {
+        res.json({
+            ok: false,
+            message: "Please add a valid price."
+        });
+    } else {
+        Appointment.findOneAndUpdate({ _id: id }, {
+            $set: { quoted: true, price: quotation, pending: false}
+        }, {new: true }, (err, doc) => {
+            if(err) throw err;
+            else {
+                res.json({
+                    ok: true,
+                    data: doc
+                });
+            }
+        });
+    }
 });
 
 router.post('/approve', (req, res, next) => {
@@ -380,6 +387,34 @@ router.post('/comment', (req, res, next) => {
                 }
             })
             
+        }
+    })
+});
+
+router.post("/changepassword", (req, res, next) => {
+    var username = req.body.username;
+    var currentPassword = req.body.current;
+    var newpassword = req.body.newpassword;
+
+    Admin.findOne({ username: username, password: currentPassword }, (err, result) => {
+        if(err) throw err;
+        else if(result == null) {
+            res.json({
+                ok: false,
+                message: "Unable to change passwords for this account, contact admin."
+            });
+        } else {
+            Admin.update({username: username }, {
+                password: newpassword
+            }, { new: true }, (err, result) => {
+                if(err) throw err;
+                else {
+                    res.json({
+                        ok: true,
+                        message: "Password has been successfully changed."
+                    })
+                }
+            })
         }
     })
 })
