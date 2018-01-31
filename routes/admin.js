@@ -419,4 +419,31 @@ router.post("/changepassword", (req, res, next) => {
     })
 })
 
+router.post("/changepasswordt", (req, res, next) => {
+    var username = req.body.username;
+    var currentPassword = req.body.current;
+    var newpassword = req.body.newpassword;
+
+    Technician.findOne({ username: username, password: currentPassword }, (err, result) => {
+        if(err) throw err;
+        else if(result == null) {
+            res.json({
+                ok: false,
+                message: "Unable to change passwords for this account, contact admin."
+            });
+        } else {
+            Technician.update({ username: username }, {
+                password: newpassword
+            }, { new: true }, (err, result) => {
+                if(err) throw err;
+                else {
+                    res.json({
+                        ok: true,
+                        message: "Password has been successfully changed."
+                    })
+                }
+            })
+        }
+    })
+})
 module.exports = router;

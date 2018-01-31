@@ -81,6 +81,10 @@ router.get('/customersupport', (req, res, next) => {
   res.sendFile(path.join(__dirname, "..","public","customersupport.html"));
 });
 
+router.get("/technician", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "..", "public", "tech.html"));
+})
+
 router.post('/addschedule', (req, res, next) => {
 
   var Apoint = new Appointment({
