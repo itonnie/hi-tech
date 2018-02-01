@@ -69,8 +69,8 @@ router.post("/login", (req, res, next) => {
                     });
         
                     res.json({
-                        ok: false,
-                        message: "Login successful, use /technician to use your account",
+                        ok: true,
+                        message: "Login successful",
                         data: result
                     });
                 }
