@@ -88,8 +88,9 @@ router.get("/technician", (req, res, next) => {
 router.post('/addschedule', (req, res, next) => {
 
   var Apoint = new Appointment({
-    from: req.body.from,
-    to: req.body.to,
+    time: req.body.time,
+    date: req.body.date,
+    timestamp: Date.now(),
     county: req.body.county,
     fullname: req.body.fullname,
     town: req.body.town,

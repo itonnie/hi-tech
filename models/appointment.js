@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 
 var appSchema = mongoose.Schema({
-    from: Date,
-    to: Date,
+    time: Date,
+    date: Date,
+    timestamp: Date,
     county: String,
     fullname: String,
     town: String,
@@ -26,7 +27,7 @@ var appSchema = mongoose.Schema({
         {
             username: String,
             comment: String,
-            time: { type: Date, default: Date.now() }
+            time: Date
         }
     ]
 }, { collection: 'appointments'});

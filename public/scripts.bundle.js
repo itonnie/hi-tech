@@ -28,6 +28,13 @@ module.exports = "/*! jQuery v3.3.1 | (c) JS Foundation and other contributors |
 
 /***/ }),
 
+/***/ "../../../../raw-loader/index.js!../../../../source-map-loader/index.js!../../../../../src/scripts.js":
+/***/ (function(module, exports) {
+
+module.exports = "$(document).ready(() => {\r\n    \r\n});"
+
+/***/ }),
+
 /***/ "../../../../script-loader/addScript.js":
 /***/ (function(module, exports) {
 
@@ -59,6 +66,13 @@ module.exports = function(src) {
 	}
 }
 
+
+/***/ }),
+
+/***/ "../../../../script-loader/index.js!../../../../../src/scripts.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("../../../../script-loader/addScript.js")(__webpack_require__("../../../../raw-loader/index.js!../../../../source-map-loader/index.js!../../../../../src/scripts.js"))
 
 /***/ }),
 
@@ -96,7 +110,8 @@ __webpack_require__("../../../../script-loader/addScript.js")(__webpack_require_
 __webpack_require__("../../../../script-loader/index.js!../../../../chart.js/dist/Chart.js");
 __webpack_require__("../../../../script-loader/index.js!../../../../hammerjs/hammer.min.js");
 __webpack_require__("../../../../script-loader/index.js!../../../../jquery/dist/jquery.min.js");
-module.exports = __webpack_require__("../../../../script-loader/index.js!../../../../bootstrap/dist/js/bootstrap.min.js");
+__webpack_require__("../../../../script-loader/index.js!../../../../bootstrap/dist/js/bootstrap.min.js");
+module.exports = __webpack_require__("../../../../script-loader/index.js!../../../../../src/scripts.js");
 
 
 /***/ })

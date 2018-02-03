@@ -371,7 +371,8 @@ router.post('/comment', (req, res, next) => {
         $push: {
             comments: {
                 username: req.body.username,
-                comment: req.body.comment
+                comment: req.body.comment,
+                time: Date.now()
             }
         }
     }, { new: true },(err, result) => {
