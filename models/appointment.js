@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var appSchema = mongoose.Schema({
-    time: Date,
-    date: Date,
+    time: String,
+    date: String,
     timestamp: Date,
     county: String,
     fullname: String,
