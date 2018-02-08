@@ -8,8 +8,8 @@ var cors = require('cors');
 var mongoose = require("mongoose");
 var session = require("express-session");
 
-//mongoose.connect('mongodb://tonnie:123456@ds141786.mlab.com:41786/hitech');
-mongoose.connect('mongodb://127.0.0.1:27017/hi-tech');
+mongoose.connect('mongodb://tonnie:123456@ds141786.mlab.com:41786/hitech');
+//mongoose.connect('mongodb://127.0.0.1:27017/hi-tech');
 
 var index = require('./routes/index');
 var users = require('./routes/users');

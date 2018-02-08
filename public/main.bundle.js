@@ -437,7 +437,7 @@ var AppdataService = (function () {
         this.currentId = this.idSource.asObservable();
         this.currentStaffId = this.staffIdSource.asObservable();
         this.currentLevel = this.stafflevel.asObservable();
-        this.host = "http://localhost:80";
+        this.host = "";
     }
     AppdataService.prototype.getCounties = function () {
         return this.http.get('assets/json/counties.json').map(function (res) { return res.json(); });
