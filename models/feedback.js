@@ -4,8 +4,9 @@ var feedbackSchema = mongoose.Schema({
     name: String,
     email: String,
     message: String,
-    timestamp: { type: Date, default: Date.now() },
-    ip: String
+    timestamp: Date,
+    ip: String,
+    replied: Boolean
 });
 
 var Feedback = mongoose.model("Feedback", feedbackSchema, 'feedback');

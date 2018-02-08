@@ -129,23 +129,4 @@ router.post('/addschedule', (req, res, next) => {
   
 });
 
-router.post("/feedback", (req, res, next) => {
-  var newFeed = new Feedback({
-    ip: req.ip,
-    name: req.body.name,
-    email: req.body.email,
-    message: req.body.message
-  });
-
-  newFeed.save((err, response) => {
-    if(err) throw err;
-    else {
-      res.json({
-        ok: true,
-        message: "Thanks for your feedback, we will get in touch with you shortly via your email."
-      });
-    }
-  });
-});
-
 module.exports = router;
