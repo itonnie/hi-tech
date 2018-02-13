@@ -446,5 +446,26 @@ router.post("/changepasswordt", (req, res, next) => {
             })
         }
     })
-})
+});
+
+//Dispach a technician by sending in the tech email
+router.post("/dispach_expert", (req, res, next) => {
+    Appointment.update({ _id: req.body.id }, {
+        $push: {
+            dispached_experts: {
+                tech_name: req.body.techname,
+                dispach_date: Date.now()
+            }
+        }
+    }, { "new" : true } ,(err, data) => {
+        if(err) throw err;
+        else {
+            res.json({
+                ok: true,
+                data: data
+            });
+        }
+    });
+});
+
 module.exports = router;

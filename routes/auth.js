@@ -9,6 +9,7 @@ router.post("/login", (req, res, next) => {
     var type = req.body.type;
     var email = req.body.email;
     var password = req.body.password;
+    console.log(type);
 
     switch(type) {
         case "admin":
@@ -44,7 +45,7 @@ router.post("/login", (req, res, next) => {
             });
         break;
 
-        case "technician":
+        case "expert":
             Technician.findOne({ email: email, password: password }, (err, result) => {
                 if(err) throw err;
                 else if(result == null) {

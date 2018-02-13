@@ -12,7 +12,12 @@ var appSchema = mongoose.Schema({
     category: String,
     sub: String,
     subsub: String,
-    name: String,
+    dispached_experts: [
+        {
+            tech_name: String,
+            dispach_date: Date
+        }
+    ],
     cancelled: Boolean,
     pending: Boolean,
     quoted: Boolean,

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Appointment = require("./appointment");
 
 var technicianSchema = mongoose.Schema({
     username: String,
@@ -7,6 +8,9 @@ var technicianSchema = mongoose.Schema({
     password: String,
     staff_id: String,
     title: String,
+    current_job: String,
+    active_jobs: Array,
+    job_history: Array,
     account_created: { type: Date },
     last_login: { type: Date },
     permissions: {
@@ -28,3 +32,12 @@ var technicianSchema = mongoose.Schema({
 var Technician = mongoose.model("Technician", technicianSchema, "technicians");
 
 module.exports = Technician;
+
+module.exports.getJobInfo = function getJobInfo(id) {
+    Appointment.findOne({ _id: id }, (err, data) => {
+        if(err) throw err;
+        else {
+            return data;
+        }
+    });
+}
