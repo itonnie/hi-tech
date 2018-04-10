@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    section.hero.is-primary.is-bold
+        .hero-body
+            .container
+                h1.title HiTech Innovation Dashboard
+                h2.subtitle {{username}}
+
+                .button-group
+                    a.bttn.bttn-dull(href="#/!") Home
+                    a.bttn.bttn-dull(href="#!users") Users
+                    a.bttn.bttn-dull(href="#!clients") Clients
+
+    .container(ng-view)

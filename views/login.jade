@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    section.hero.is-primary.is-bold
+        .hero-body
+            .container
+                h1.title.is-2 Hitech Innovation Dashboard
+                h4.subtitle developed by Onejohi
+
+    .container
+        .jumbotron.sharp
+            div
+            div(ng-controller="login")
+                h3.is-3.text-center Admin authentication.
+
+                form(name="loginForm")
+                    input.matinput(type="email", name="lemail", ng-model="lemail", placeholder="email", required)
+                    span.text-danger(ng-show="loginForm.lemail.$touched && loginForm.lemail.$invalid") please enter a valid email
+
+                    br
+
+                    input.matinput(type="password", name="lpassword", ng-model="lpassword", placeholder="password" required)
+                    span.text-danger(ng-show="loginForm.lpassword.$touched && loginForm.lpassword.$invalid") You'll need a password
+
+                    br
+                    
+                    button.md-button.md-primary(ng-click="login(lemail, lpassword)") Login

@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= message
+  h2= error.status
+  
+  p.lead.text-danger Ooops! The page you requested has a broken link or has an expired security token.
+  p.text-danger That's all we know.
+
+  a.btn.btn-primary(href="/") Go Back Home
